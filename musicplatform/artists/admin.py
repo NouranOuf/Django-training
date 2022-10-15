@@ -1,9 +1,18 @@
+
 from django.contrib import admin
-
 from albums.models import Album
-
-# Register your models here.
 from .models import Artist 
 
-admin.site.register(Artist)
-admin.site.register(Album)
+class AlbumInline(admin.TabularInline):
+     model = Album
+     readonly_fields = ["creation_date"]
+     
+class ArtistAdmin(admin.ModelAdmin):
+     list_display = ['stage_name','approved_albums']
+     inlines = [
+         AlbumInline,
+     ]
+   
+     
+
+admin.site.register(Artist , ArtistAdmin) 
